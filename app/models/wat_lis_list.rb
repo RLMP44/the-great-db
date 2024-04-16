@@ -1,0 +1,2 @@
+class WatLisList < ApplicationRecord
+end

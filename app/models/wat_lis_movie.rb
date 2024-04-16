@@ -1,0 +1,2 @@
+class WatLisMovie < ApplicationRecord
+end

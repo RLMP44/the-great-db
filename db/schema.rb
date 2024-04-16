@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_15_095409) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_16_084505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,4 +26,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_15_095409) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "wat_lis_bookmarks", force: :cascade do |t|
+    t.string "comment"
+    t.bigint "wat_lis_movie_id", null: false
+    t.bigint "wat_lis_list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["wat_lis_list_id"], name: "index_wat_lis_bookmarks_on_wat_lis_list_id"
+    t.index ["wat_lis_movie_id"], name: "index_wat_lis_bookmarks_on_wat_lis_movie_id"
+  end
+
+  create_table "wat_lis_lists", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "wat_lis_movies", force: :cascade do |t|
+    t.string "title"
+    t.string "overview"
+    t.string "poster_url"
+    t.float "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "wat_lis_bookmarks", "wat_lis_lists"
+  add_foreign_key "wat_lis_bookmarks", "wat_lis_movies"
 end
