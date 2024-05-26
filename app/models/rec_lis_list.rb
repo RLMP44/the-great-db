@@ -1,0 +1,2 @@
+class RecLisList < ApplicationRecord
+end

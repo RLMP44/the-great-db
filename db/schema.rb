@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_10_022804) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_26_203353) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -40,6 +40,42 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_10_022804) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "rec_lis_bookmarks", force: :cascade do |t|
+    t.bigint "rec_lis_list_id", null: false
+    t.bigint "rec_lis_recipe_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["rec_lis_list_id"], name: "index_rec_lis_bookmarks_on_rec_lis_list_id"
+    t.index ["rec_lis_recipe_id"], name: "index_rec_lis_bookmarks_on_rec_lis_recipe_id"
+  end
+
+  create_table "rec_lis_lists", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rec_lis_recipes", force: :cascade do |t|
+    t.string "title"
+    t.string "overview"
+    t.string "picture_url"
+    t.float "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "rec_lis_users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_rec_lis_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_rec_lis_users_on_reset_password_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,6 +117,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_10_022804) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "rec_lis_bookmarks", "rec_lis_lists"
+  add_foreign_key "rec_lis_bookmarks", "rec_lis_recipes"
   add_foreign_key "wat_lis_bookmarks", "wat_lis_lists"
   add_foreign_key "wat_lis_bookmarks", "wat_lis_movies"
 end
